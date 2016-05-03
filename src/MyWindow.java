@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Администратор on 03.05.2016.
@@ -37,6 +39,18 @@ public class MyWindow extends JFrame {
         add(button1Panel, BorderLayout.LINE_START);
         add(buttonPanel, BorderLayout.LINE_END);
         add(button2Panel, BorderLayout.NORTH);
+
+        Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                double[] x = ConvertToArray.OfString(LabelX.getText());
+                double[] y = ConvertToArray.OfString(LabelY.getText());
+
+                Spline spline = new Spline(x,y);
+
+            }
+        });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
