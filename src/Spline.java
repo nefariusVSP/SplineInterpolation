@@ -2,18 +2,19 @@
  * Created by Администратор on 03.05.2016.
  */
 public class Spline {
-    public Spline(double[] x, double[] y) throws Exception {
-        if(x.length != y.length){
-            throw new Exception("Не равное колличество элементов x, y");
-        }
-        Count = x.length;
-        splines[Count] = new SplineTuple();
 
+    public Spline(double[] x, double[] y)  {
+
+        Count = x.length;
+        Splines = new SplineTuple[Count];
         for (int i = 0; i < Count; ++i){
-            splines[i].x = x[i];
-            splines[i].a = y[i];
+            Splines[i] = new SplineTuple();
         }
-        splines[0].c = splines[Count-1].c = 0.0;
+        for (int i = 0; i < Count; ++i){
+            Splines[i].x = x[i];
+            Splines[i].a = y[i];
+        }
+        Splines[0].c = Splines[Count-1].c = 0.0;
 
         double[] alpha = new double[Count-1];
         double[] beta = new double[Count-1];
@@ -31,43 +32,43 @@ public class Spline {
         }
 
         for(int i = Count - 2; i > 0; --i){
-            splines[i].c = alpha[i]*splines[i+1].c + beta[i];
+            Splines[i].c = alpha[i]* Splines[i+1].c + beta[i];
         }
 
         for (int i = Count - 1; i > 0; --i){
             double hi = x[i] - x[i-1];
-            splines[i].d = (splines[i].c - splines[i-1].c) / hi;
-            splines[i].b = hi * (2 * splines[i].c + splines[i-1].c)/ 6 + (y[i] - y[i-1]) / hi;
+            Splines[i].d = (Splines[i].c - Splines[i-1].c) / hi;
+            Splines[i].b = hi * (2 * Splines[i].c + Splines[i-1].c)/ 6 + (y[i] - y[i-1]) / hi;
         }
     }
 
     public double Interpol(double x){
         SplineTuple s;
-        if (x <= splines[0].x){
-            s = splines[0];
+        if (x <= Splines[0].x){
+            s = Splines[0];
         }
-        else if (x >= splines[Count-1].x){
-            s = splines[Count-1];
+        else if (x >= Splines[Count-1].x){
+            s = Splines[Count-1];
         }
         else {
             int i = 0;
             int j = Count - 1;
             while (i + 1 < j){
                 int k = i + (j - i) / 2;
-                if (x <= splines[k].x){
+                if (x <= Splines[k].x){
                     j = k;
                 }
                 else {
                     i = k;
                 }
             }
-            s = splines[j];
+            s = Splines[j];
         }
         double dx = x - s.x;
         return s.a + (s.b + (s.c / 2.0 + s.d * dx / 6.0) * dx) * dx;
     }
     int  Count;
-    SplineTuple[] splines;
+    SplineTuple[] Splines;
 }
 
 class SplineTuple{

@@ -3,7 +3,6 @@
  */
 public class ConvertToArray {
     static public double[] OfString(String string){
-        //ArrayList<Double> list = new ArrayList<Double>();
         int n = 1;
         for (int i = 0 ; i < string.length(); ++i){
             if (string.charAt(i) == ','){

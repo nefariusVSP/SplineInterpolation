@@ -25,6 +25,7 @@ public class MyWindow extends JFrame {
         TextX = new JLabel("X:");
         TextY = new JLabel("Y:");
 
+        setVisible(true);
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JPanel button1Panel = new JPanel(new FlowLayout());
         JPanel button2Panel = new JPanel(new FlowLayout());

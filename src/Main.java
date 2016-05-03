@@ -1,10 +1,11 @@
 public class Main {
 
-        public static void main(String[] args) {
+        public static void main(String[] args)  {
                 MyWindow window = new MyWindow();
-                window.setVisible(true);
-                double[] d = ConvertToArray.OfString(window.LabelX.getText());
-                double[] d1 = ConvertToArray.OfString(window.LabelY.getText());
 
+                double[] x = ConvertToArray.OfString(window.LabelX.getText());
+                double[] y = ConvertToArray.OfString(window.LabelY.getText());
+
+                Spline spline = new Spline(x,y);
         }
 }
