@@ -7,8 +7,8 @@ import java.awt.*;
 public class MyWindow extends JFrame {
 
     private JButton Button;
-    private JTextPane LabelX;
-    private JTextPane LabelY;
+    public JTextPane LabelX;
+    public JTextPane LabelY;
     private JLabel TextX;
     private JLabel TextY;
 
