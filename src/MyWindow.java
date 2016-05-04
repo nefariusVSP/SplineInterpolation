@@ -48,10 +48,33 @@ public class MyWindow extends JFrame {
                 double[] y = ConvertToArray.OfString(LabelY.getText());
 
                 Spline spline = new Spline(x,y);
+                
+                Scaling scaling = new Scaling(MaxDouble(x),MinDouble(x),MaxDouble(y), MinDouble(y));
+
+
 
             }
         });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    }
+    
+    public double MaxDouble(double[] values){
+        double max = 0;
+        for (double value: values) {
+            if (max < value){
+                max = value;
+            }
+        }
+        return max;
+    }
+    public double MinDouble(double[] values){
+        double min = 0;
+        for (double value: values) {
+            if (min > value){
+                min = value;
+            }
+        }
+        return min;
     }
 }
