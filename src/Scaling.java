@@ -10,6 +10,7 @@ public class Scaling {
     public int GetHeight(){
         return Height;
     }
+    private int Border;
     private double XDifference;
     private double YDifference;
     private double XMax;
@@ -17,9 +18,10 @@ public class Scaling {
     private double XMin;
     private double YMin;
 
-    public Scaling(double xMax, double xMin, double yMin, double yMax, int width , int height ){
-        Width = width;
-        Height = height;
+    public Scaling(double xMax, double xMin, double yMin, double yMax, int border, int width , int height ){
+        Border = border;
+        Width = width - border * 2;
+        Height = height - border * 2;
         XMax = xMax;
         XMin = xMin;
         YMax= yMax;
@@ -27,13 +29,13 @@ public class Scaling {
         XDifference = XMax - XMin;
         YDifference = YMax - YMin;
     }
-    public Scaling(double xMax, double xMin, double yMin, double yMax){
-        new Scaling(xMax,  xMin,  yMin,  yMax, 800, 500);
+    public Scaling(double xMax, double xMin, double yMin, double yMax ,int border){
+        new Scaling(xMax,  xMin,  yMin,  yMax, border, 800, 500);
     }
     public double ScalingX (double x){
-        return ( ((x-XMax) * Width) / XDifference );
+        return Border + ( ((x-XMax) * Width) / XDifference );
     }
      public double ScalingY (double y){
-         return (YMax - ( ((y-YMax) * Height) / YDifference ));
+         return Border + (YMax - ( ((y-YMax) * Height) / YDifference ));
     }
 }

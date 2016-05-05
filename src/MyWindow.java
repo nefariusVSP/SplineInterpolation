@@ -49,7 +49,7 @@ public class MyWindow extends JFrame {
 
                 Spline spline = new Spline(x,y);
                 
-                Scaling scaling = new Scaling(MaxDouble(x),MinDouble(x),MaxDouble(y), MinDouble(y));
+                Scaling scaling = new Scaling(MaxDouble(x),MinDouble(x),MaxDouble(y), MinDouble(y), 20);
 
 
 
