@@ -18,10 +18,10 @@ public class Scaling {
     private double XMin;
     private double YMin;
 
-    public Scaling(double xMax, double xMin, double yMin, double yMax, int border, int width , int height ){
+    public Scaling(double xMax, double xMin, double yMax, double yMin, int border, int width , int height ){
         Border = border;
-        Width = width - border * 2;
-        Height = height - border * 2;
+        Width = width;
+        Height = height;
         XMax = xMax;
         XMin = xMin;
         YMax= yMax;
@@ -30,12 +30,12 @@ public class Scaling {
         YDifference = YMax - YMin;
     }
     public Scaling(double xMax, double xMin, double yMin, double yMax ,int border){
-        new Scaling(xMax,  xMin,  yMin,  yMax, border, 800, 500);
+        this(xMax,  xMin, yMax, yMin, border, 800, 500);
     }
-    public double ScalingX (double x){
-        return Border + ( ((x-XMax) * Width) / XDifference );
+    public int ScalingX (double x){
+        return ((int)((Border + (((x-XMin) * ((Width - (Border * 2)))) / XDifference ))));
     }
-     public double ScalingY (double y){
-         return Border + (YMax - ( ((y-YMax) * Height) / YDifference ));
+    public int ScalingY (double y){
+        return ((int)(Border + (YMax + (((y-YMin) * ((Height - (Border * 2)))) / YDifference ))));
     }
 }

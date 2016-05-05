@@ -1,7 +1,13 @@
+import com.sun.javafx.iio.ImageStorage;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Администратор on 03.05.2016.
@@ -47,12 +53,29 @@ public class MyWindow extends JFrame {
                 double[] x = ConvertToArray.OfString(LabelX.getText());
                 double[] y = ConvertToArray.OfString(LabelY.getText());
 
+                int xMax = (int)MaxDouble(x);
+                int xMin = (int)MinDouble(x);
+                int yMax = (int)MaxDouble(y);
+                int yMin = (int)MinDouble(y);
                 Spline spline = new Spline(x,y);
                 
-                Scaling scaling = new Scaling(MaxDouble(x),MinDouble(x),MaxDouble(y), MinDouble(y), 20);
+                Scaling scaling = new Scaling(xMax, xMin, yMax, yMin, 20);
+                BufferedImage img = new BufferedImage(scaling.GetWidth(),scaling.GetHeight(), BufferedImage.TYPE_INT_RGB);
 
+                //System.err.println(scaling.ScalingX(xMin) + " " + scaling.ScalingX(xMax) );
+                //System.err.println(scaling.ScalingY(yMin) + " " + scaling.ScalingY(yMax) );
 
-
+                Graphics2D graphics = img.createGraphics();
+                graphics.setColor(Color.WHITE);
+                graphics.drawLine(scaling.ScalingX(xMin),scaling.ScalingY(0),780,scaling.ScalingY(0));
+                graphics.dispose();
+                try
+                {
+                    ImageIO.write(img, "png", new File("image.bmp"));
+                }
+                catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
