@@ -76,18 +76,18 @@ public class MyWindow extends JFrame {
                 Graphics2D graphics = img.createGraphics();
                 graphics.setColor(Color.WHITE);
                 //Рисование осей
-                graphics.drawLine(scaling.ScalingX(xMin),scaling.ScalingY(0),780,scaling.ScalingY(0));
-                graphics.drawLine(scaling.ScalingX(0),scaling.ScalingY(yMin),scaling.ScalingX(0),scaling.ScalingY(yMax));
+                graphics.drawLine(scaling.ScalingX(scaling.GetXMin()),scaling.ScalingY(0),scaling.ScalingX(scaling.GetXMax()),scaling.ScalingY(0));
+                graphics.drawLine(scaling.ScalingX(0),scaling.ScalingY(scaling.GetYMin()),scaling.ScalingX(0),scaling.ScalingY(scaling.GetYMax()));
                 //Рисование сплайна
-                for (double i = 0; i < xMax - xMin; ) {
+                for (double i = 0; i + xMin < xMax ; ) {
                     graphics.drawLine(
                             scaling.ScalingX(xMin + i),
-                            scaling.ScalingY(spline.Interpol(i)),
+                            scaling.ScalingY(spline.Interpol(xMin + i)),
                             scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),
-                            scaling.ScalingY(spline.Interpol(i+((xMax - xMin) / scaling.GetWidthImg())))
+                            scaling.ScalingY(spline.Interpol(xMin+ i+((xMax - xMin) / scaling.GetWidthImg())))
 
                     );
-                    System.err.printf("i = %f, x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", i, scaling.ScalingX(xMin + i),scaling.ScalingY(spline.Interpol(i)),scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),scaling.ScalingY(spline.Interpol(i+((xMax - xMin) / scaling.GetWidthImg()))));
+                    System.err.printf("i = %f, x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", i, scaling.ScalingX(xMin + i),scaling.ScalingY(spline.Interpol(xMin + i)),scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),scaling.ScalingY(spline.Interpol(xMin +i+((xMax - xMin) / scaling.GetWidthImg()))));
                     i+= (xMax - xMin) / scaling.GetWidthImg();
 
                 }
@@ -105,7 +105,7 @@ public class MyWindow extends JFrame {
 
     }
     public double MaxDouble(double[] values){
-        double max = 0;
+        double max = values[0];
         for (double value: values) {
             if (max < (value)){
                 max = (value);
@@ -114,7 +114,7 @@ public class MyWindow extends JFrame {
         return max;
     }
     public double MinDouble(double[] values){
-        double min = 0;
+        double min = values[0];
         for (double value: values) {
             if (min > (value)){
                 min = (value);
@@ -124,7 +124,7 @@ public class MyWindow extends JFrame {
     }
     
     public double MaxDouble(Spline spline, double xMax, double xMin ,double scaling){
-        double max = 0;
+        double max = Double.MIN_VALUE;
         for (double i = xMin; i <= xMax; i += (xMax - xMin) / scaling) {
             if (max < spline.Interpol(i)){
                 max = spline.Interpol(i);
@@ -133,7 +133,7 @@ public class MyWindow extends JFrame {
         return max;
     }
     public double MinDouble( Spline spline, double xMax, double xMin, double scaling){
-        double min = 0;
+        double min = Double.MAX_VALUE;
         for (double i = xMin; i <= xMax; i += (xMax - xMin) / scaling) {
             if (min > spline.Interpol(i)){
                 min = spline.Interpol(i);

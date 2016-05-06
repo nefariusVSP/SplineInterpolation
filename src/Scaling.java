@@ -1,3 +1,5 @@
+import java.security.PublicKey;
+
 /**
  * Created by Администратор on 04.05.2016.
  */
@@ -25,6 +27,10 @@ public class Scaling {
     private double YMax;
     private double XMin;
     private double YMin;
+    public int GetXMax(){return (int)XMax;}
+    public int GetXMin(){return (int)XMin;}
+    public int GetYMax(){return (int)YMax;}
+    public int GetYMin(){return (int)YMin;}
 
     public Scaling(double xMax, double xMin, double yMax, double yMin, int border, int width , int height ){
 
@@ -33,6 +39,10 @@ public class Scaling {
         Height = height;
         WidthImg = (width - (border * 2));
         HeightImg = (height - (border * 2));
+        if (xMax < 0) xMax = 0;
+        if (xMin > 0) xMin = 0;
+        if (yMax < 0) yMax = 0;
+        if (yMin > 0) yMin = 0;
         XMax = xMax;
         XMin = xMin;
         YMax= yMax;
