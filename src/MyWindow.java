@@ -1,3 +1,4 @@
+import ScalaClases.StringTo;
 import com.sun.javafx.iio.ImageStorage;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import sun.plugin.javascript.navig.Array;
@@ -30,9 +31,9 @@ public class MyWindow extends JFrame {
 
         Button = new JButton("Создание изображиения");
         LabelX = new JTextPane();
-        LabelX.setText("0,50,100,150,200,250,300,350,400,450");
+        LabelX.setText("100,200,300,400,500,600,700,800,900");
         LabelY = new JTextPane();
-        LabelY.setText("50,100,90,330,400,100,50,59,354,200");
+        LabelY.setText("100,90,330,400,100,50,59,354,200");
         TextX = new JLabel("X:");
         TextY = new JLabel("Y:");
 
@@ -56,22 +57,21 @@ public class MyWindow extends JFrame {
                 int widthImg = 800;
                 int heightImg = 500;
                 int border = 20;
-                double[] x = ConvertToArray.OfString(LabelX.getText());
-                double[] y = ConvertToArray.OfString(LabelY.getText());
 
-
+                double[] x = StringTo.ArrayDouble(LabelX.getText());
+                double[] y = StringTo.ArrayDouble(LabelY.getText());
 
                 Spline spline = new Spline(x,y);
-                int xMax = (int)MaxDouble(x);
-                int xMin = (int)MinDouble(x);
-                int yMax = (int)MaxDouble(spline, xMax, xMin);
-                int yMin = (int)MinDouble(spline, xMax, xMin);
+                double xMax = MaxDouble(x);
+                double xMin = MinDouble(x);
+                double yMax = MaxDouble(spline, xMax, xMin, widthImg - border *2);
+                double yMin = MinDouble(spline, xMax, xMin, widthImg - border *2);
                 
                 Scaling scaling = new Scaling(xMax, xMin, yMax, yMin, border, widthImg, heightImg);
                 BufferedImage img = new BufferedImage(scaling.GetWidth(),scaling.GetHeight(), BufferedImage.TYPE_INT_RGB);
 
-                System.err.println(scaling.ScalingX(xMin) + " " + scaling.ScalingX(xMax) );
-                System.err.println(scaling.ScalingY(yMin) + " " + scaling.ScalingY(yMax) );
+                System.err.println((xMin) + " " + (xMax) );
+                System.err.println((yMin) + " " + (yMax) );
 
                 Graphics2D graphics = img.createGraphics();
                 graphics.setColor(Color.WHITE);
@@ -79,8 +79,16 @@ public class MyWindow extends JFrame {
                 graphics.drawLine(scaling.ScalingX(xMin),scaling.ScalingY(0),780,scaling.ScalingY(0));
                 graphics.drawLine(scaling.ScalingX(0),scaling.ScalingY(yMin),scaling.ScalingX(0),scaling.ScalingY(yMax));
                 //Рисование сплайна
-                for (int i = 0; i < xMax - xMin; ++i) {
-                    graphics.drawLine(scaling.ScalingX(xMin + i),scaling.ScalingY(spline.Interpol(i)),scaling.ScalingX(xMin + i+1),scaling.ScalingY(spline.Interpol(i+1)));
+                for (double i = 0; i < xMax - xMin; ) {
+                    graphics.drawLine(
+                            scaling.ScalingX(xMin + i),
+                            scaling.ScalingY(spline.Interpol(i)),
+                            scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),
+                            scaling.ScalingY(spline.Interpol(i+((xMax - xMin) / scaling.GetWidthImg())))
+
+                    );
+                    System.err.printf("i = %f, x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", i, scaling.ScalingX(xMin + i),scaling.ScalingY(spline.Interpol(i)),scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),scaling.ScalingY(spline.Interpol(i+((xMax - xMin) / scaling.GetWidthImg()))));
+                    i+= (xMax - xMin) / scaling.GetWidthImg();
 
                 }
                 graphics.dispose();
@@ -115,18 +123,18 @@ public class MyWindow extends JFrame {
         return min;
     }
     
-    public double MaxDouble(Spline spline, int xMax, int xMin){
+    public double MaxDouble(Spline spline, double xMax, double xMin ,double scaling){
         double max = 0;
-        for (int i = xMin; i <= xMax; ++i) {
+        for (double i = xMin; i <= xMax; i += (xMax - xMin) / scaling) {
             if (max < spline.Interpol(i)){
                 max = spline.Interpol(i);
             }
         }
         return max;
     }
-    public double MinDouble( Spline spline, int xMax, int xMin){
+    public double MinDouble( Spline spline, double xMax, double xMin, double scaling){
         double min = 0;
-        for (int i = xMin; i <= xMax; ++i) {
+        for (double i = xMin; i <= xMax; i += (xMax - xMin) / scaling) {
             if (min > spline.Interpol(i)){
                 min = spline.Interpol(i);
             }

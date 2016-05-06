@@ -40,7 +40,7 @@ public class Scaling {
         XDifference = XMax - XMin;
         YDifference = YMax - YMin;
     }
-    
+
     public int ScalingX (double x){
         return ((int)((Border + (((x-XMin) * (WidthImg))) / XDifference )));
     }
