@@ -79,6 +79,7 @@ public class MyWindow extends JFrame {
                 graphics.drawLine(scaling.ScalingX(scaling.GetXMin()),scaling.ScalingY(0),scaling.ScalingX(scaling.GetXMax()),scaling.ScalingY(0));
                 graphics.drawLine(scaling.ScalingX(0),scaling.ScalingY(scaling.GetYMin()),scaling.ScalingX(0),scaling.ScalingY(scaling.GetYMax()));
                 //Рисование сплайна
+                graphics.setColor(Color.CYAN);
                 for (double i = 0; i + xMin < xMax ; ) {
                     graphics.drawLine(
                             scaling.ScalingX(xMin + i),

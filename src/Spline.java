@@ -5,6 +5,21 @@ public class Spline {
 
     public Spline(double[] x, double[] y)  {
 
+        for(int i = 0; i < x.length-1;){
+            if (x[i] > x[i+1]){
+                double svap = x[i];
+                x[i] = x[i+1];
+                x[i+1] = svap;
+                svap = y[i];
+                y[i] = y[i+1];
+                y[i+1] = svap;
+                i = 0;
+            }
+            else {
+                i++;
+            }
+        }
+
         Count = x.length;
         Splines = new SplineTuple[Count];
         for (int i = 0; i < Count; ++i){
