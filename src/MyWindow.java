@@ -88,14 +88,14 @@ public class MyWindow extends JFrame {
                             scaling.ScalingY(spline.Interpol(xMin+ i+((xMax - xMin) / scaling.GetWidthImg())))
 
                     );
-                    System.err.printf("i = %f, x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", i, scaling.ScalingX(xMin + i),scaling.ScalingY(spline.Interpol(xMin + i)),scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),scaling.ScalingY(spline.Interpol(xMin +i+((xMax - xMin) / scaling.GetWidthImg()))));
+                    //System.err.printf("i = %f, x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", i, scaling.ScalingX(xMin + i),scaling.ScalingY(spline.Interpol(xMin + i)),scaling.ScalingX(xMin + i + ((xMax - xMin) / scaling.GetWidthImg())),scaling.ScalingY(spline.Interpol(xMin +i+((xMax - xMin) / scaling.GetWidthImg()))));
                     i+= (xMax - xMin) / scaling.GetWidthImg();
 
                 }
                 graphics.dispose();
                 try
                 {
-                    ImageIO.write(img, "png", new File("image.bmp"));
+                    ImageIO.write(img, "png", new File("image1.bmp"));
                 }
                 catch (IOException ex) {
                     ex.printStackTrace();
